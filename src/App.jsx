@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import logo from './assets/pfmb-logo.png'
 
 const services = [
@@ -143,6 +144,38 @@ function IconShield() {
 }
 
 function App() {
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    cleaningType: '',
+    message: '',
+  })
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    const subject = `Quote Request - ${formData.cleaningType || 'General Cleaning'}`
+    const body = [
+      'New quote request from PFMB Cleaning website:',
+      '',
+      `Name: ${formData.name}`,
+      `Phone: ${formData.phone}`,
+      `Email: ${formData.email}`,
+      `Type of cleaning: ${formData.cleaningType || 'Not selected'}`,
+      '',
+      'Message:',
+      formData.message || 'No message provided.',
+    ].join('\n')
+
+    window.location.href = `mailto:pfmbcleaning@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+  }
+
   return (
     <div className="bg-slate-50 text-slate-800">
       <header className="border-b border-slate-200 bg-white/90 backdrop-blur">
@@ -378,29 +411,41 @@ function App() {
               <p className="mt-2 text-slate-600">
                 Tell us what you need and we will get back to you with a custom quote.
               </p>
-              <form className="mt-6 grid gap-4 sm:grid-cols-2">
+              <form className="mt-6 grid gap-4 sm:grid-cols-2" onSubmit={handleSubmit}>
                 <input
                   type="text"
+                  name="name"
                   placeholder="Name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
                   className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
                 />
                 <input
                   type="tel"
+                  name="phone"
                   placeholder="Phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  required
                   className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
                 />
                 <input
                   type="email"
+                  name="email"
                   placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
                   className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
                 />
-                <input
-                  type="text"
-                  className="hidden"
-                  aria-hidden="true"
-                  tabIndex={-1}
-                />
-                <select className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2">
+                <select
+                  name="cleaningType"
+                  value={formData.cleaningType}
+                  onChange={handleChange}
+                  required
+                  className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+                >
                   <option value="">Type of cleaning</option>
                   <option>Standard Home Cleaning</option>
                   <option>Deep Cleaning</option>
@@ -410,7 +455,11 @@ function App() {
                 </select>
                 <textarea
                   rows="5"
+                  name="message"
                   placeholder="Message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
                   className="sm:col-span-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
                 />
                 <button
@@ -429,7 +478,12 @@ function App() {
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 sm:px-6">
           <p className="text-lg font-semibold text-white">PFMB Cleaning</p>
           <p>Phone: 424-206-8097</p>
-          <p>Email: Pfmbcleaning@gmail.com</p>
+          <p>
+            Email:{' '}
+            <a href="mailto:pfmbcleaning@gmail.com" className="text-sky-300 hover:text-sky-200">
+              pfmbcleaning@gmail.com
+            </a>
+          </p>
           <p>Serving Orange County, CA</p>
         </div>
       </footer>
