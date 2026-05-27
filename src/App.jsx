@@ -17,12 +17,12 @@ const reasons = [
 ]
 
 const standardPricing = [
-  { homeSize: 'Studio / 1 Bed 1 Bath', time: '1.5–2 hrs', team: '1 cleaner', price: '$120' },
-  { homeSize: '2 Bed / 1 Bath', time: '2–2.5 hrs', team: '1 cleaner', price: '$160' },
-  { homeSize: '2 Bed / 2 Bath', time: '2.5–3 hrs', team: '2 cleaners', price: '$200' },
-  { homeSize: '3 Bed / 2 Bath', time: '3–4 hrs', team: '2 cleaners', price: '$260' },
-  { homeSize: '4 Bed / 3 Bath', time: '4–5 hrs', team: '2 cleaners', price: '$340' },
-  { homeSize: '5 Bed / 4 Bath', time: '5–6 hrs', team: '3 cleaners', price: '$450+' },
+  { homeSize: 'Studio / 1 Bed 1 Bath', time: '1.5–2 hrs', price: '$120' },
+  { homeSize: '2 Bed / 1 Bath', time: '2–2.5 hrs', price: '$160' },
+  { homeSize: '2 Bed / 2 Bath', time: '2.5–3 hrs', price: '$200' },
+  { homeSize: '3 Bed / 2 Bath', time: '3–4 hrs', price: '$260' },
+  { homeSize: '4 Bed / 3 Bath', time: '4–5 hrs', price: '$340' },
+  { homeSize: '5 Bed / 4 Bath', time: '5–6 hrs', price: '$450+' },
 ]
 
 const deepPricing = [
@@ -258,7 +258,6 @@ function App() {
                     columns={[
                       { key: 'homeSize', label: 'Home Size' },
                       { key: 'time', label: 'Estimated Time' },
-                      { key: 'team', label: 'Team Size' },
                       { key: 'price', label: 'Starting Price', emphasis: true },
                     ]}
                     rows={standardPricing}
@@ -268,7 +267,7 @@ function App() {
                 <div className="sm:hidden">
                   <MobileList rows={standardPricing} leftKey="homeSize" rightKey="price" />
                   <p className="mt-3 text-xs text-slate-600">
-                    Estimated time and team size vary by condition and add-ons.
+                    Estimated time may vary by condition and add-ons.
                   </p>
                 </div>
               </SectionCard>
