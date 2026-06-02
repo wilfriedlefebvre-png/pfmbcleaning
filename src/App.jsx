@@ -1,20 +1,87 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import logo from './assets/pfmb-logo.png'
 
-const services = [
+const residentialServices = [
   'Standard Home Cleaning',
   'Deep Cleaning',
   'Move-In / Move-Out Cleaning',
-  'Office Cleaning',
   'Airbnb / Rental Cleaning',
 ]
 
+const commercialServices = [
+  'Office Cleaning',
+  'Medical Office Cleaning',
+  'Retail Cleaning',
+  'Property Management Cleaning',
+  'Move-In / Move-Out Cleaning',
+  'Post-Construction Cleaning',
+]
+
+const trustBadges = [
+  'Licensed & Insured',
+  'Flexible Scheduling',
+  'Free Walkthroughs',
+  'Satisfaction Guaranteed',
+  'Locally Owned',
+]
+
 const reasons = [
-  'Reliable cleaners',
+  'Reliable communication',
   'Flexible scheduling',
-  'Satisfaction-focused service',
-  'Easy booking',
+  'Professional cleaners',
+  'Satisfaction guarantee',
   'Locally owned',
+]
+
+const builtForTrust = [
+  'Clear communication',
+  'Professional standards',
+  'Flexible scheduling',
+  'Residential and commercial experience',
+  'Satisfaction guarantee',
+]
+
+const whoWeHelp = [
+  'Offices',
+  'Dental offices',
+  'Medical offices',
+  'Real estate offices',
+  'Retail stores',
+  'Property managers',
+  'Small businesses',
+]
+
+const servicesIncluded = [
+  'Dusting and surfaces',
+  'Floors and vacuuming',
+  'Restrooms',
+  'Break rooms',
+  'Trash removal',
+  'Disinfection of high-touch areas',
+  'Before/after business hours cleaning',
+]
+
+const faqItems = [
+  {
+    question: 'Do you offer recurring commercial cleaning?',
+    answer: 'Yes. We offer weekly, bi-weekly, monthly, and custom recurring schedules.',
+  },
+  {
+    question: 'Can you clean after business hours?',
+    answer: 'Yes. We can work around your business schedule.',
+  },
+  {
+    question: 'Do you bring supplies?',
+    answer: 'Yes. We can bring supplies, or use your preferred products if requested.',
+  },
+  {
+    question: 'Do you offer free estimates?',
+    answer: 'Yes. We offer free quotes and walkthroughs for commercial spaces.',
+  },
+  {
+    question: 'What areas do you serve?',
+    answer: 'We serve Orange County and nearby areas.',
+  },
 ]
 
 const standardPricing = [
@@ -143,7 +210,52 @@ function IconShield() {
   )
 }
 
-function App() {
+function IconCheck() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5 text-emerald-600">
+      <path d="M5 12L10 17L19 8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+function Header({ onNavClick }) {
+  return (
+    <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur">
+      <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-4 sm:px-6">
+        <a href="/" className="flex items-center gap-3" onClick={onNavClick}>
+          <img
+            src={logo}
+            alt="PFMB Cleaning logo"
+            className="h-10 w-10 rounded-xl bg-white object-contain"
+            loading="eager"
+            decoding="async"
+          />
+          <p className="text-lg font-semibold text-slate-900">PFMB Cleaning</p>
+        </a>
+        <nav className="flex flex-wrap items-center gap-2 text-sm font-medium text-slate-700">
+          <a className="rounded-full px-3 py-1.5 hover:bg-slate-100" href="/" onClick={onNavClick}>
+            Home
+          </a>
+          <a
+            className="rounded-full px-3 py-1.5 hover:bg-slate-100"
+            href="/commercial-cleaning"
+            onClick={onNavClick}
+          >
+            Commercial Cleaning
+          </a>
+          <a
+            href="#contact"
+            className="rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-500"
+          >
+            Schedule a Free Walkthrough
+          </a>
+        </nav>
+      </div>
+    </header>
+  )
+}
+
+function ContactSection({ headline = 'Contact Us', cta = 'Request Commercial Quote' }) {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -177,316 +289,524 @@ function App() {
   }
 
   return (
-    <div className="bg-slate-50 text-slate-800">
-      <header className="border-b border-slate-200 bg-white/90 backdrop-blur">
-        <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-          <a href="#" className="flex items-center gap-3">
-            <img
-              src={logo}
-              alt="PFMB Cleaning logo"
-              className="h-10 w-10 rounded-xl bg-white object-contain"
-              loading="eager"
-              decoding="async"
+    <section id="contact" className="bg-white py-14">
+      <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
+        <div className="mx-auto max-w-3xl rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900">{headline}</h2>
+          <p className="mt-2 text-slate-600">
+            Tell us what you need and we will get back to you with a custom quote for residential
+            and commercial cleaning in Orange County.
+          </p>
+          <form className="mt-6 grid gap-4 sm:grid-cols-2" onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
             />
-            <p className="text-lg font-semibold text-slate-900">PFMB Cleaning</p>
-          </a>
-          <a
-            href="#contact"
-            className="rounded-full bg-sky-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-sky-500"
-          >
-            Get a Free Quote
-          </a>
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Phone"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+              className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+            />
+            <select
+              name="cleaningType"
+              value={formData.cleaningType}
+              onChange={handleChange}
+              required
+              className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+            >
+              <option value="">Type of cleaning</option>
+              <option>Standard Home Cleaning</option>
+              <option>Deep Cleaning</option>
+              <option>Move-In / Move-Out Cleaning</option>
+              <option>Office Cleaning</option>
+              <option>Medical Office Cleaning</option>
+              <option>Retail Cleaning</option>
+              <option>Property Management Cleaning</option>
+            </select>
+            <textarea
+              rows="5"
+              name="message"
+              placeholder="Message"
+              value={formData.message}
+              onChange={handleChange}
+              required
+              className="sm:col-span-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
+            />
+            <button
+              type="submit"
+              className="sm:col-span-2 rounded-xl bg-sky-600 px-6 py-3 font-semibold text-white transition hover:bg-sky-500"
+            >
+              {cta}
+            </button>
+          </form>
         </div>
-      </header>
+      </div>
+    </section>
+  )
+}
 
-      <main>
-        <section className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-20">
-          <div>
-            <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-sky-100 px-3 py-1 text-sm font-medium text-sky-800">
-              <IconSparkle />
-              Orange County Trusted Team
-            </p>
-            <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
-              Professional Cleaning Services You Can Trust
-            </h1>
-            <p className="mt-4 max-w-xl text-lg text-slate-600">
-              Reliable residential and commercial cleaning in Orange County.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="#contact"
-                className="rounded-xl bg-sky-600 px-6 py-3 font-semibold text-white transition hover:bg-sky-500"
-              >
-                Get a Free Quote
-              </a>
-              <a
-                href="tel:4242068097"
-                className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:border-sky-300 hover:text-sky-700"
-              >
-                424-206-8097
-              </a>
-            </div>
-            <p className="mt-4 text-slate-600">
-              Email:{' '}
-              <a
-                href="mailto:Pfmbcleaning@gmail.com"
-                className="font-medium text-sky-700 hover:text-sky-600"
-              >
-                Pfmbcleaning@gmail.com
-              </a>
-            </p>
+function Footer() {
+  return (
+    <footer className="border-t border-slate-200 bg-slate-900 py-8 text-slate-200">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 sm:px-6">
+        <p className="text-lg font-semibold text-white">PFMB Cleaning</p>
+        <p>Phone: 424-206-8097</p>
+        <p>
+          Email:{' '}
+          <a href="mailto:pfmbcleaning@gmail.com" className="text-sky-300 hover:text-sky-200">
+            pfmbcleaning@gmail.com
+          </a>
+        </p>
+        <p>Serving Orange County, CA</p>
+      </div>
+    </footer>
+  )
+}
+
+function HomePage({ onNavClick }) {
+  return (
+    <main>
+      <section className="mx-auto grid w-full max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-20">
+        <div>
+          <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-sky-100 px-3 py-1 text-sm font-medium text-sky-800">
+            <IconSparkle />
+            Orange County Trusted Team
+          </p>
+          <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+            Professional Residential & Commercial Cleaning Services in Orange County
+          </h1>
+          <p className="mt-4 max-w-xl text-lg text-slate-600">
+            Reliable, insured cleaning for homes, offices, medical offices, retail spaces, and
+            property-managed buildings.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a
+              href="#contact"
+              className="rounded-xl bg-sky-600 px-6 py-3 font-semibold text-white transition hover:bg-sky-500"
+            >
+              Schedule a Free Walkthrough
+            </a>
+            <a
+              href="#contact"
+              className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:border-sky-300 hover:text-sky-700"
+            >
+              Get a Fast Quote
+            </a>
           </div>
-
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
-            <h2 className="text-xl font-semibold text-slate-900">Why Clients Stay With Us</h2>
-            <ul className="mt-5 space-y-4">
-              {reasons.map((reason) => (
-                <li key={reason} className="flex items-start gap-3">
-                  <span className="mt-1 rounded-full bg-sky-100 p-1.5">
-                    <IconShield />
-                  </span>
-                  <span className="text-slate-700">{reason}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-
-        <section className="border-y border-slate-200 bg-white">
-          <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
-            <h2 className="text-3xl font-bold tracking-tight text-slate-900">Our Services</h2>
-            <p className="mt-2 text-slate-600">
-              Thorough, detail-focused cleaning for homes, offices, and rental properties.
-            </p>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {services.map((service) => (
-                <article
-                  key={service}
-                  className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-200 hover:shadow"
-                >
-                  <div className="mb-4 inline-flex rounded-lg bg-sky-100 p-2">
-                    <IconSparkle />
-                  </div>
-                  <h3 className="text-lg font-semibold text-slate-900">{service}</h3>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
-          <div className="flex flex-col gap-8">
-            <div className="rounded-3xl border border-slate-200 bg-gradient-to-r from-slate-900 to-sky-900 p-8 text-white sm:p-10">
-              <h2 className="text-3xl font-bold tracking-tight">Pricing</h2>
-              <p className="mt-4 max-w-3xl text-slate-100">
-                Custom quotes based on home size and cleaning needs. Prices below are starting
-                points.
+          <div className="mt-7 grid gap-2 sm:grid-cols-2">
+            {trustBadges.map((badge) => (
+              <p key={badge} className="inline-flex items-center gap-2 text-sm font-medium text-slate-700">
+                <IconCheck />
+                {badge}
               </p>
-            </div>
-
-            <div className="grid gap-6 lg:grid-cols-2">
-              <SectionCard title="Standard Cleaning Pricing" subtitle="Residential starting prices">
-                <div className="hidden sm:block">
-                  <Table
-                    columns={[
-                      { key: 'homeSize', label: 'Home Size' },
-                      { key: 'time', label: 'Estimated Time' },
-                      { key: 'price', label: 'Starting Price', emphasis: true },
-                    ]}
-                    rows={standardPricing}
-                    rowKey={(r) => r.homeSize}
-                  />
-                </div>
-                <div className="sm:hidden">
-                  <MobileList rows={standardPricing} leftKey="homeSize" rightKey="price" />
-                  <p className="mt-3 text-xs text-slate-600">
-                    Estimated time may vary by condition and add-ons.
-                  </p>
-                </div>
-              </SectionCard>
-
-              <SectionCard
-                title="Deep Cleaning Pricing"
-                subtitle="First-time cleans / neglected homes"
-              >
-                <div className="hidden sm:block">
-                  <Table
-                    columns={[
-                      { key: 'homeSize', label: 'Home Size' },
-                      { key: 'price', label: 'Starting Price', emphasis: true },
-                    ]}
-                    rows={deepPricing}
-                    rowKey={(r) => r.homeSize}
-                  />
-                </div>
-                <div className="sm:hidden">
-                  <MobileList rows={deepPricing} leftKey="homeSize" rightKey="price" />
-                </div>
-              </SectionCard>
-            </div>
-
-            <div className="grid gap-6 lg:grid-cols-3">
-              <SectionCard title="Move-In / Move-Out Cleaning" subtitle="Residential starting prices">
-                <div className="hidden sm:block">
-                  <Table
-                    columns={[
-                      { key: 'homeSize', label: 'Home Size' },
-                      { key: 'price', label: 'Starting Price', emphasis: true },
-                    ]}
-                    rows={movePricing}
-                    rowKey={(r) => r.homeSize}
-                  />
-                </div>
-                <div className="sm:hidden">
-                  <MobileList rows={movePricing} leftKey="homeSize" rightKey="price" />
-                </div>
-              </SectionCard>
-
-              <SectionCard title="Add-On Services" subtitle="Optional extras">
-                <div className="grid gap-2">
-                  {addOns.map((a) => (
-                    <div
-                      key={a.service}
-                      className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
-                    >
-                      <span className="text-sm font-medium text-slate-800">{a.service}</span>
-                      <span className="text-sm font-semibold text-slate-900">{a.price}</span>
-                    </div>
-                  ))}
-                </div>
-              </SectionCard>
-
-              <SectionCard title="Recurring Discounts" subtitle="Save with routine service">
-                <div className="grid gap-2">
-                  {recurringDiscounts.map((d) => (
-                    <div
-                      key={d.frequency}
-                      className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
-                    >
-                      <span className="text-sm font-medium text-slate-800">{d.frequency}</span>
-                      <span className="text-sm font-semibold text-slate-900">{d.discount}</span>
-                    </div>
-                  ))}
-                </div>
-              </SectionCard>
-            </div>
-
-            <div className="grid gap-6 lg:grid-cols-2">
-              <SectionCard title="Suggested PFMB Cleaning Policy">
-                <div className="space-y-3 text-sm text-slate-700">
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                    <p className="font-semibold text-slate-900">Initial Cleaning</p>
-                    <p className="mt-1">
-                      First-time cleanings may require additional time and cost depending on
-                      condition.
-                    </p>
-                  </div>
-                  <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
-                    <p className="font-semibold text-slate-900">Cancellation Policy</p>
-                    <p className="mt-1">24-hour notice required to avoid cancellation fee.</p>
-                  </div>
-                </div>
-              </SectionCard>
-
-              <SectionCard title="Payment Methods" subtitle="Pay the way that’s easiest">
-                <div className="flex flex-wrap gap-2">
-                  {paymentMethods.map((m) => (
-                    <span
-                      key={m}
-                      className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-800"
-                    >
-                      {m}
-                    </span>
-                  ))}
-                </div>
-              </SectionCard>
-            </div>
+            ))}
           </div>
-        </section>
-
-        <section id="contact" className="bg-white py-14">
-          <div className="mx-auto w-full max-w-6xl px-4 sm:px-6">
-            <div className="mx-auto max-w-3xl rounded-3xl border border-slate-200 bg-slate-50 p-6 shadow-sm sm:p-8">
-              <h2 className="text-3xl font-bold tracking-tight text-slate-900">Contact Us</h2>
-              <p className="mt-2 text-slate-600">
-                Tell us what you need and we will get back to you with a custom quote.
-              </p>
-              <form className="mt-6 grid gap-4 sm:grid-cols-2" onSubmit={handleSubmit}>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
-                />
-                <input
-                  type="tel"
-                  name="phone"
-                  placeholder="Phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  required
-                  className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
-                />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
-                />
-                <select
-                  name="cleaningType"
-                  value={formData.cleaningType}
-                  onChange={handleChange}
-                  required
-                  className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
-                >
-                  <option value="">Type of cleaning</option>
-                  <option>Standard Home Cleaning</option>
-                  <option>Deep Cleaning</option>
-                  <option>Move-In / Move-Out Cleaning</option>
-                  <option>Office Cleaning</option>
-                  <option>Airbnb / Rental Cleaning</option>
-                </select>
-                <textarea
-                  rows="5"
-                  name="message"
-                  placeholder="Message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  required
-                  className="sm:col-span-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-800 outline-none ring-sky-300 transition focus:ring-2"
-                />
-                <button
-                  type="submit"
-                  className="sm:col-span-2 rounded-xl bg-sky-600 px-6 py-3 font-semibold text-white transition hover:bg-sky-500"
-                >
-                  Request Quote
-                </button>
-              </form>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer className="border-t border-slate-200 bg-slate-900 py-8 text-slate-200">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 px-4 sm:px-6">
-          <p className="text-lg font-semibold text-white">PFMB Cleaning</p>
-          <p>Phone: 424-206-8097</p>
-          <p>
+          <p className="mt-4 text-slate-600">
             Email:{' '}
-            <a href="mailto:pfmbcleaning@gmail.com" className="text-sky-300 hover:text-sky-200">
-              pfmbcleaning@gmail.com
+            <a
+              href="mailto:Pfmbcleaning@gmail.com"
+              className="font-medium text-sky-700 hover:text-sky-600"
+            >
+              Pfmbcleaning@gmail.com
             </a>
           </p>
-          <p>Serving Orange County, CA</p>
         </div>
-      </footer>
+
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="text-xl font-semibold text-slate-900">Why Clients Stay With Us</h2>
+          <ul className="mt-5 space-y-4">
+            {reasons.map((reason) => (
+              <li key={reason} className="flex items-start gap-3">
+                <span className="mt-1 rounded-full bg-sky-100 p-1.5">
+                  <IconShield />
+                </span>
+                <span className="text-slate-700">{reason}</span>
+              </li>
+            ))}
+          </ul>
+          <a
+            href="/commercial-cleaning"
+            onClick={onNavClick}
+            className="mt-6 inline-flex rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800"
+          >
+            Request Commercial Quote
+          </a>
+        </div>
+      </section>
+
+      <section className="border-y border-slate-200 bg-white">
+        <div className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900">Our Services</h2>
+          <p className="mt-2 text-slate-600">
+            Thorough, detail-focused professional cleaning services for homes, offices, and rental
+            properties across Orange County.
+          </p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {residentialServices.map((service) => (
+              <article
+                key={service}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-200 hover:shadow"
+              >
+                <div className="mb-4 inline-flex rounded-lg bg-sky-100 p-2">
+                  <IconSparkle />
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900">{service}</h3>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900">
+            Commercial Cleaning Services
+          </h2>
+          <p className="mt-3 max-w-3xl text-slate-600">
+            PFMB Cleaning helps local businesses keep their spaces clean, professional, and ready
+            for clients, staff, and visitors. We offer flexible cleaning options for small
+            offices, medical offices, retail stores, real estate offices, and property managers.
+          </p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {commercialServices.map((service) => (
+              <article
+                key={service}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-200 hover:shadow"
+              >
+                <h3 className="text-lg font-semibold text-slate-900">{service}</h3>
+              </article>
+            ))}
+          </div>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <a
+              href="/commercial-cleaning"
+              onClick={onNavClick}
+              className="rounded-xl bg-sky-600 px-6 py-3 font-semibold text-white transition hover:bg-sky-500"
+            >
+              Request Commercial Quote
+            </a>
+            <a
+              href="#contact"
+              className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:border-sky-300 hover:text-sky-700"
+            >
+              Get 20% Off First Cleaning
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900">Built for Trust</h2>
+          <div className="mt-6 grid gap-3 sm:grid-cols-2">
+            {builtForTrust.map((item) => (
+              <p key={item} className="inline-flex items-center gap-2 text-slate-700">
+                <IconCheck />
+                {item}
+              </p>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
+        <div className="flex flex-col gap-8">
+          <div className="rounded-3xl border border-slate-200 bg-gradient-to-r from-slate-900 to-sky-900 p-8 text-white sm:p-10">
+            <h2 className="text-3xl font-bold tracking-tight">Pricing</h2>
+            <p className="mt-4 max-w-3xl text-slate-100">
+              Custom quotes based on home size and cleaning needs. Prices below are starting
+              points.
+            </p>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <SectionCard title="Standard Cleaning Pricing" subtitle="Residential starting prices">
+              <div className="hidden sm:block">
+                <Table
+                  columns={[
+                    { key: 'homeSize', label: 'Home Size' },
+                    { key: 'time', label: 'Estimated Time' },
+                    { key: 'price', label: 'Starting Price', emphasis: true },
+                  ]}
+                  rows={standardPricing}
+                  rowKey={(r) => r.homeSize}
+                />
+              </div>
+              <div className="sm:hidden">
+                <MobileList rows={standardPricing} leftKey="homeSize" rightKey="price" />
+                <p className="mt-3 text-xs text-slate-600">
+                  Estimated time may vary by condition and add-ons.
+                </p>
+              </div>
+            </SectionCard>
+
+            <SectionCard title="Deep Cleaning Pricing" subtitle="First-time cleans / neglected homes">
+              <div className="hidden sm:block">
+                <Table
+                  columns={[
+                    { key: 'homeSize', label: 'Home Size' },
+                    { key: 'price', label: 'Starting Price', emphasis: true },
+                  ]}
+                  rows={deepPricing}
+                  rowKey={(r) => r.homeSize}
+                />
+              </div>
+              <div className="sm:hidden">
+                <MobileList rows={deepPricing} leftKey="homeSize" rightKey="price" />
+              </div>
+            </SectionCard>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-3">
+            <SectionCard title="Move-In / Move-Out Cleaning" subtitle="Residential starting prices">
+              <div className="hidden sm:block">
+                <Table
+                  columns={[
+                    { key: 'homeSize', label: 'Home Size' },
+                    { key: 'price', label: 'Starting Price', emphasis: true },
+                  ]}
+                  rows={movePricing}
+                  rowKey={(r) => r.homeSize}
+                />
+              </div>
+              <div className="sm:hidden">
+                <MobileList rows={movePricing} leftKey="homeSize" rightKey="price" />
+              </div>
+            </SectionCard>
+
+            <SectionCard title="Add-On Services" subtitle="Optional extras">
+              <div className="grid gap-2">
+                {addOns.map((a) => (
+                  <div
+                    key={a.service}
+                    className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
+                  >
+                    <span className="text-sm font-medium text-slate-800">{a.service}</span>
+                    <span className="text-sm font-semibold text-slate-900">{a.price}</span>
+                  </div>
+                ))}
+              </div>
+            </SectionCard>
+
+            <SectionCard title="Recurring Discounts" subtitle="Save with routine service">
+              <div className="grid gap-2">
+                {recurringDiscounts.map((d) => (
+                  <div
+                    key={d.frequency}
+                    className="flex items-center justify-between rounded-xl border border-slate-200 bg-slate-50 px-4 py-3"
+                  >
+                    <span className="text-sm font-medium text-slate-800">{d.frequency}</span>
+                    <span className="text-sm font-semibold text-slate-900">{d.discount}</span>
+                  </div>
+                ))}
+              </div>
+            </SectionCard>
+          </div>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            <SectionCard title="Suggested PFMB Cleaning Policy">
+              <div className="space-y-3 text-sm text-slate-700">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="font-semibold text-slate-900">Initial Cleaning</p>
+                  <p className="mt-1">
+                    First-time cleanings may require additional time and cost depending on
+                    condition.
+                  </p>
+                </div>
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                  <p className="font-semibold text-slate-900">Cancellation Policy</p>
+                  <p className="mt-1">24-hour notice required to avoid cancellation fee.</p>
+                </div>
+              </div>
+            </SectionCard>
+
+            <SectionCard title="Payment Methods" subtitle="Pay the way that’s easiest">
+              <div className="flex flex-wrap gap-2">
+                {paymentMethods.map((m) => (
+                  <span
+                    key={m}
+                    className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-sm font-medium text-slate-800"
+                  >
+                    {m}
+                  </span>
+                ))}
+              </div>
+            </SectionCard>
+          </div>
+        </div>
+      </section>
+
+      <ContactSection headline="Contact Us" cta="Schedule a Free Walkthrough" />
+    </main>
+  )
+}
+
+function CommercialCleaningPage({ onNavClick }) {
+  return (
+    <main>
+      <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6 lg:py-20">
+        <p className="inline-flex items-center gap-2 rounded-full bg-sky-100 px-3 py-1 text-sm font-medium text-sky-800">
+          <IconSparkle />
+          Commercial Cleaning Orange County
+        </p>
+        <h1 className="mt-4 text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+          Commercial Cleaning Services in Orange County
+        </h1>
+        <p className="mt-4 max-w-3xl text-lg text-slate-600">
+          PFMB Cleaning delivers office cleaning Orange County businesses trust, including medical
+          office cleaning and flexible professional cleaning services for local teams and
+          properties.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <a
+            href="#contact"
+            className="rounded-xl bg-sky-600 px-6 py-3 font-semibold text-white transition hover:bg-sky-500"
+          >
+            Schedule a Free Walkthrough
+          </a>
+          <a
+            href="/"
+            onClick={onNavClick}
+            className="rounded-xl border border-slate-300 bg-white px-6 py-3 font-semibold text-slate-700 transition hover:border-sky-300 hover:text-sky-700"
+          >
+            Get 20% Off First Cleaning
+          </a>
+        </div>
+      </section>
+
+      <section className="border-y border-slate-200 bg-white">
+        <div className="mx-auto grid w-full max-w-6xl gap-6 px-4 py-14 sm:px-6 lg:grid-cols-2">
+          <SectionCard title="Who we help">
+            <div className="grid gap-3 sm:grid-cols-2">
+              {whoWeHelp.map((item) => (
+                <p key={item} className="inline-flex items-center gap-2 text-slate-700">
+                  <IconCheck />
+                  {item}
+                </p>
+              ))}
+            </div>
+          </SectionCard>
+          <SectionCard title="Services included">
+            <div className="grid gap-3">
+              {servicesIncluded.map((item) => (
+                <p key={item} className="inline-flex items-center gap-2 text-slate-700">
+                  <IconCheck />
+                  {item}
+                </p>
+              ))}
+            </div>
+          </SectionCard>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
+        <div className="grid gap-6 lg:grid-cols-2">
+          <SectionCard title="Why choose PFMB Cleaning">
+            <div className="grid gap-3">
+              {[
+                'Reliable communication',
+                'Flexible scheduling',
+                'Professional cleaners',
+                'Local Orange County company',
+                'Satisfaction guarantee',
+                'Free estimates',
+              ].map((item) => (
+                <p key={item} className="inline-flex items-center gap-2 text-slate-700">
+                  <IconCheck />
+                  {item}
+                </p>
+              ))}
+            </div>
+          </SectionCard>
+          <SectionCard title="Free walkthrough process">
+            <ol className="space-y-3 text-slate-700">
+              <li>
+                <span className="font-semibold text-slate-900">1. Quick call:</span> Share your
+                building type, schedule, and cleaning goals.
+              </li>
+              <li>
+                <span className="font-semibold text-slate-900">2. Walkthrough:</span> We tour your
+                space and identify service priorities and timing.
+              </li>
+              <li>
+                <span className="font-semibold text-slate-900">3. Custom plan:</span> You receive a
+                clear scope, frequency, and pricing.
+              </li>
+            </ol>
+          </SectionCard>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-4 pb-14 sm:px-6">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900">FAQ</h2>
+          <div className="mt-6 space-y-4">
+            {faqItems.map((item) => (
+              <article key={item.question} className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                <h3 className="font-semibold text-slate-900">{item.question}</h3>
+                <p className="mt-2 text-slate-700">{item.answer}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <ContactSection headline="Request Commercial Cleaning Service" cta="Request Commercial Quote" />
+    </main>
+  )
+}
+
+function App() {
+  const [pathname, setPathname] = useState(window.location.pathname)
+
+  useEffect(() => {
+    const onPopState = () => setPathname(window.location.pathname)
+    window.addEventListener('popstate', onPopState)
+    return () => window.removeEventListener('popstate', onPopState)
+  }, [])
+
+  const handleNavClick = (event) => {
+    const href = event.currentTarget.getAttribute('href')
+    if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) {
+      return
+    }
+    if (href.startsWith('/') && window.location.pathname !== href) {
+      event.preventDefault()
+      window.history.pushState({}, '', href)
+      setPathname(href)
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  }
+
+  const isCommercialPage = pathname === '/commercial-cleaning'
+
+  return (
+    <div className="bg-slate-50 text-slate-800">
+      <Header onNavClick={handleNavClick} />
+      {isCommercialPage ? (
+        <CommercialCleaningPage onNavClick={handleNavClick} />
+      ) : (
+        <HomePage onNavClick={handleNavClick} />
+      )}
+      <Footer />
     </div>
   )
 }
