@@ -84,6 +84,23 @@ const faqItems = [
   },
 ]
 
+const whyChooseCards = [
+  'Licensed & Insured',
+  'Locally Owned',
+  'Satisfaction Guaranteed',
+  'Flexible Scheduling',
+  'Residential & Commercial Cleaning',
+  'Fast Response Times',
+]
+
+const orangeCountyCoverage = [
+  { icon: '🏠', label: 'Homes' },
+  { icon: '🏢', label: 'Offices' },
+  { icon: '🏥', label: 'Medical Offices' },
+  { icon: '🛍️', label: 'Retail Stores' },
+  { icon: '📋', label: 'Property Managers' },
+]
+
 const standardPricing = [
   { homeSize: 'Studio / 1 Bed 1 Bath', time: '1.5–2 hrs', price: '$120' },
   { homeSize: '2 Bed / 1 Bath', time: '2–2.5 hrs', price: '$160' },
@@ -232,7 +249,7 @@ function Header({ onNavClick }) {
           />
           <p className="text-lg font-semibold text-slate-900">PFMB Cleaning</p>
         </a>
-        <nav className="flex flex-wrap items-center gap-2 text-sm font-medium text-slate-700">
+        <nav className="flex w-full flex-wrap items-center justify-end gap-2 text-sm font-medium text-slate-700 md:w-auto">
           <a className="rounded-full px-3 py-1.5 hover:bg-slate-100" href="/" onClick={onNavClick}>
             Home
           </a>
@@ -244,8 +261,14 @@ function Header({ onNavClick }) {
             Commercial Cleaning
           </a>
           <a
+            href="tel:4242068097"
+            className="order-3 w-full rounded-full border border-slate-300 bg-white px-4 py-2 text-center font-semibold text-slate-700 transition hover:border-sky-300 hover:text-sky-700 md:order-none md:w-auto"
+          >
+            📞 (424) 206-8097
+          </a>
+          <a
             href="#contact"
-            className="rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-500"
+            className="order-2 rounded-full bg-sky-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-sky-500"
           >
             Schedule a Free Walkthrough
           </a>
@@ -285,7 +308,7 @@ function ContactSection({ headline = 'Contact Us', cta = 'Request Commercial Quo
       formData.message || 'No message provided.',
     ].join('\n')
 
-    window.location.href = `mailto:pfmbcleaning@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.location.href = `mailto:info@pfmbcleaning.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
   return (
@@ -371,8 +394,8 @@ function Footer() {
         <p>Phone: 424-206-8097</p>
         <p>
           Email:{' '}
-          <a href="mailto:pfmbcleaning@gmail.com" className="text-sky-300 hover:text-sky-200">
-            pfmbcleaning@gmail.com
+          <a href="mailto:info@pfmbcleaning.com" className="text-sky-300 hover:text-sky-200">
+            info@pfmbcleaning.com
           </a>
         </p>
         <p>Serving Orange County, CA</p>
@@ -422,10 +445,10 @@ function HomePage({ onNavClick }) {
           <p className="mt-4 text-slate-600">
             Email:{' '}
             <a
-              href="mailto:Pfmbcleaning@gmail.com"
+              href="mailto:info@pfmbcleaning.com"
               className="font-medium text-sky-700 hover:text-sky-600"
             >
-              Pfmbcleaning@gmail.com
+              info@pfmbcleaning.com
             </a>
           </p>
         </div>
@@ -471,6 +494,45 @@ function HomePage({ onNavClick }) {
                 <h3 className="text-lg font-semibold text-slate-900">{service}</h3>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto w-full max-w-6xl px-4 py-14 sm:px-6">
+        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="text-3xl font-bold tracking-tight text-slate-900">Why Choose PFMB Cleaning</h2>
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {whyChooseCards.map((card) => (
+              <article
+                key={card}
+                className="rounded-2xl border border-slate-200 bg-slate-50 p-5 shadow-sm transition hover:-translate-y-0.5 hover:border-sky-200 hover:shadow"
+              >
+                <p className="inline-flex items-center gap-2 text-base font-semibold text-slate-900">
+                  <IconCheck />
+                  {card}
+                </p>
+              </article>
+            ))}
+          </div>
+          <div className="mt-10 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+            <h3 className="text-2xl font-bold tracking-tight text-slate-900">Serving Orange County</h3>
+            <p className="mt-3 text-slate-600">
+              PFMB Cleaning proudly serves homeowners, offices, medical offices, retail stores, and
+              property managers throughout Orange County.
+            </p>
+            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+              {orangeCountyCoverage.map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-center text-sm font-semibold text-slate-800"
+                >
+                  <p className="text-lg" aria-hidden="true">
+                    {item.icon}
+                  </p>
+                  <p className="mt-1">{item.label}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
