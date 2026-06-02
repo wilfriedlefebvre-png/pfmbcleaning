@@ -308,7 +308,7 @@ function ContactSection({ headline = 'Contact Us', cta = 'Request Commercial Quo
       formData.message || 'No message provided.',
     ].join('\n')
 
-    window.location.href = `mailto:info@pfmbcleaning.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.location.href = `mailto:pfmbcleaning@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   }
 
   return (
@@ -394,8 +394,8 @@ function Footer() {
         <p>Phone: 424-206-8097</p>
         <p>
           Email:{' '}
-          <a href="mailto:info@pfmbcleaning.com" className="text-sky-300 hover:text-sky-200">
-            info@pfmbcleaning.com
+          <a href="mailto:pfmbcleaning@gmail.com" className="text-sky-300 hover:text-sky-200">
+            pfmbcleaning@gmail.com
           </a>
         </p>
         <p>Serving Orange County, CA</p>
@@ -445,10 +445,10 @@ function HomePage({ onNavClick }) {
           <p className="mt-4 text-slate-600">
             Email:{' '}
             <a
-              href="mailto:info@pfmbcleaning.com"
+              href="mailto:pfmbcleaning@gmail.com"
               className="font-medium text-sky-700 hover:text-sky-600"
             >
-              info@pfmbcleaning.com
+              pfmbcleaning@gmail.com
             </a>
           </p>
         </div>
