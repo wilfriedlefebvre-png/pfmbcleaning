@@ -5,11 +5,11 @@ import { CommercialCleaningPage, Footer, Header, HomePage } from './components/s
 import { getCityByPath } from './data/cityServiceAreas'
 import { updatePageSeo } from './utils/seo'
 
-function App({ initialPath }) {
-  const [pathname, setPathname] = useState(() => (initialPath ?? window.location.pathname).replace(/\/+$/, '') || '/')
+function App() {
+  const [pathname, setPathname] = useState(window.location.pathname)
 
   useEffect(() => {
-    const onPopState = () => setPathname(window.location.pathname.replace(/\/+$/, '') || '/')
+    const onPopState = () => setPathname(window.location.pathname)
     window.addEventListener('popstate', onPopState)
     return () => window.removeEventListener('popstate', onPopState)
   }, [])
@@ -19,7 +19,6 @@ function App({ initialPath }) {
   }, [pathname])
 
   const handleNavClick = (event) => {
-    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
     const href = event.currentTarget.getAttribute('href')
     if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) {
       return
