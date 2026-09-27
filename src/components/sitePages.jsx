@@ -398,7 +398,7 @@ export function HomePage({ onNavClick }) {
         </div>
       </section>
 
-      <WorkGallery />
+    
 
       <section className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6">
         <div className="rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm ring-1 ring-slate-900/5 sm:p-10">
