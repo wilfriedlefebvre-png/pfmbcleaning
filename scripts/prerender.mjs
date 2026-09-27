@@ -8,9 +8,10 @@ for (const path of paths) {
   const meta = city?.seo ?? pageMeta[path]
   const url = BUSINESS.url + (path === '/' ? '/' : path)
   let html = template.replace(/<title>.*?<\/title>/s, `<title>${escape(meta.title)}</title>`)
-  html = html.replace(/<meta\s+(?:name="description"|property="og:[^"]+")[^>]*>/g, '').replace(/<link\s+rel="canonical"[^>]*>/g, '')
+  html = html.replace(/<meta\s+(?:name="description"|property="og:[^"]+"|name="twitter:[^"]+")[^>]*>/g, '').replace(/<link\s+rel="canonical"[^>]*>/g, '')
   let head = `<meta name="description" content="${escape(meta.description)}"><link rel="canonical" href="${url}">`
   for (const [key, value] of Object.entries({title:meta.title, description:meta.description, url, image:BUSINESS.ogImage, type:'website'})) head += `<meta property="og:${key}" content="${escape(value)}">`
+  head += `<meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="${escape(BUSINESS.ogImage)}">`
   if (city) {
     for (const [id,data] of [['local-business',buildLocalBusinessSchema(city)],['faq-page',buildFaqSchema(city.faqs)]]) head += `<script type="application/ld+json" data-pfmb-dynamic-jsonld="true" data-pfmb-jsonld-id="${id}">${JSON.stringify(data).replaceAll('<','\\u003c')}</script>`
   }

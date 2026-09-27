@@ -110,6 +110,8 @@ export function updatePageSeo(pathname) {
   setMetaTag('meta', 'property', 'og:url', canonicalUrl)
   setMetaTag('meta', 'property', 'og:image', BUSINESS.ogImage)
   setMetaTag('meta', 'property', 'og:type', 'website')
+  setMetaTag('meta', 'name', 'twitter:card', 'summary_large_image')
+  setMetaTag('meta', 'name', 'twitter:image', BUSINESS.ogImage)
   setCanonical(canonicalUrl)
 
   removeDynamicJsonLd()

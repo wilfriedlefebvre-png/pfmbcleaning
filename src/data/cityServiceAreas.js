@@ -5,7 +5,7 @@ export const BUSINESS = {
   phoneDisplay: '(424) 206-8097',
   tel: 'tel:4242068097',
   email: 'pfmbcleaning@gmail.com',
-  ogImage: 'https://www.pfmbcleaning.com/images/hero.png',
+  ogImage: 'https://www.pfmbcleaning.com/images/pfmb-logo.png',
 }
 
 export const coreServices = [
