@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import heroImage from '../assets/pfmb-logo.png'
+import heroImage from '../assets/pfmb-logo-hd.png'
 import { cityServiceAreas } from '../data/cityServiceAreas'
 import {
   BtnLink,
